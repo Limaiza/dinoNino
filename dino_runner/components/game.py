@@ -5,8 +5,7 @@ from dino_runner.components.dinossaur import Dinossaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 
 FONT_STYLE = "freesansbold.ttf"
-TEXT_COLOR_BLACK = 0, 0, 0
-
+TEXT_COLOR_BLACK = (0, 0, 0)
 
 
 class Game:
@@ -34,7 +33,7 @@ class Game:
         pygame.display.quit()
         pygame.quit()
 
-    def execute(self):
+    def run(self):
         # Game loop: events - update - draw
         self.playing = True
         self.obstacle_manager.reset_obstacles()
@@ -82,7 +81,8 @@ class Game:
     def draw_score(self):
         font = pygame.font.Font(FONT_STYLE, 22)
         text = font.render(f"Score: {self.score}", True, (0, 0, 0))
-        text_rect.center = (1000. 50)
+        text_rect = text.get_rect()
+        text_rect.center = (1000, 50)
         self.screen.blit(text, text_rect)
 
     def show_menu(self):
@@ -90,15 +90,18 @@ class Game:
         half_screen_height = SCREEN_HEIGHT // 2
         half_screen_width = SCREEN_WIDTH // 2
 
-        if self.death_cont == 0:
+        if self.death_count == 0:
             font = pygame.font.Font(FONT_STYLE, 22)
             text = font.render("Press any key to start", True, TEXT_COLOR_BLACK)
             text_rect = text.get_rect()
             text_rect.center = (half_screen_width, half_screen_height)
             self.screen.blit(text, text_rect)
+        else:
+            self.screen.blit(ICON, (half_screen_width - 20, half_screen_height - 140))
 
             pygame.display.update()
             self.handle_events_on_menu()
+
     def handle_events_on_menu(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
